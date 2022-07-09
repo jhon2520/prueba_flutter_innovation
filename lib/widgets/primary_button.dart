@@ -21,9 +21,9 @@ class PrimaryButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(5)), 
       elevation: 0,
       color: AppConst.primaryColor,
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20,vertical: 10),
-        child: Text("Ingresar",style: TextStyle(color:  AppConst.fontColor),)
+      child:  Container(
+        padding:const EdgeInsets.symmetric(horizontal: 20,vertical: 10),
+        child: const Text("Ingresar",style: TextStyle(color:  AppConst.fontColor),)
         
         ),
     );

@@ -11,6 +11,8 @@ class HomeScreen extends StatelessWidget {
 
     final Size size = MediaQuery.of(context).size;
 
+    
+
 
     return Scaffold(
       body: SafeArea(
@@ -32,6 +34,7 @@ class HomeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 40,),
               PrimaryButton(
+                // callback: ()=>getProducts(),
                 callback: ()=> Navigator.push(context,nagivatorTransitions( screen: const ProductScreen()),),
               )
             ],

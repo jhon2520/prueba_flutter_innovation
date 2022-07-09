@@ -10,8 +10,13 @@ class AppTheme{
 
     //AppBarrTheme
     appBarTheme: const AppBarTheme(
-          color: AppConst.primaryColor,
-          elevation: 0
+      centerTitle: true,
+      color: AppConst.primaryColor,
+      elevation: 0
+    ),
+      floatingActionButtonTheme: const FloatingActionButtonThemeData(
+      backgroundColor: AppConst.primaryColor,
+      elevation: 0
     ),
 
 
