@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:innovation_test/models/product_model.dart';
 
+class ProductFormProvider extends ChangeNotifier {
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-class ProductFormProvider extends ChangeNotifier{
+  String productField = "";
+  Product productToCreate = Product(
+      id: "",
+      producto: "",
+      productId: 0,
+      codigo: "",
+      estado: true,
+      descripcion: "",
+      precio: 0,
+      idCategoria: "");
 
-  GlobalKey<FormState> formKey = new GlobalKey<FormState>();
-
-
-  String product = "";
-
-
-  // bool _isLoading = false;
-
-  // bool get isLoading => _isLoading;
-  
-  // set isLoading(bool value){
-  //   _isLoading = value;
-  //   notifyListeners();
-  // }
-  
-
-
-  bool isValidForm (){
-
+  bool isValidForm() {
     return formKey.currentState?.validate() ?? false;
-    
   }
-
-
 }

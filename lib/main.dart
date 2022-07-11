@@ -5,8 +5,7 @@ import 'package:innovation_test/screens/screens.dart';
 import 'package:innovation_test/theme/app_theme.dart';
 import 'package:provider/provider.dart';
 
-
-void main(){
+void main() {
   runApp(const AppState());
 }
 
@@ -15,10 +14,14 @@ class AppState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(providers: [
-      ChangeNotifierProvider(create: (_)=> ProductProvider(),lazy: false,)
-    ],
-    child: const MyApp(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductProvider(),
+          lazy: false,
+        )
+      ],
+      child: const MyApp(),
     );
   }
 }
@@ -33,11 +36,9 @@ class MyApp extends StatelessWidget {
       title: "Innovation App",
       initialRoute: AppRoutes.initialRoute,
       routes: AppRoutes.routes,
-      home: ProductScreen(),
-      onGenerateRoute: (settings)=> AppRoutes.onGenerateRoute(settings),
+      home: const ProductScreen(),
+      onGenerateRoute: (settings) => AppRoutes.onGenerateRoute(settings),
       theme: AppTheme.lightTheme,
     );
   }
 }
-
-

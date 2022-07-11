@@ -22,7 +22,7 @@ class Product {
     bool estado;
     String? descripcion;
     int precio;
-    int idCategoria;
+    String idCategoria;
 
     String toJson() => json.encode(toMap());
 
@@ -34,7 +34,7 @@ class Product {
         estado: json["estado"],
         descripcion: json["descripcion"],
         precio: json["precio"],
-        idCategoria: json["idCategoria"],
+        idCategoria:  json["idCategoria"].toString(),
 
     );
 

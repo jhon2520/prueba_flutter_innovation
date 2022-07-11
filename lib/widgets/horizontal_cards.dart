@@ -1,93 +1,87 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:innovation_test/models/product_model.dart';
-//import 'package:movies/src/models/pelicula_model.dart';
+import 'package:innovation_test/ui/const.dart';
+import 'package:intl/intl.dart';
 
 class HorizontalCards extends StatelessWidget {
-
-   final List<Product> products;
-  // final List<Pelicula> peliculas;
-  //final Function siguientePagina;
-
-  //MovieHorizontal({/*@required this.peliculas*/, @required this.siguientePagina});
+  final List<Product> products;
 
   const HorizontalCards({super.key, required this.products});
 
   @override
   Widget build(BuildContext context) {
-
-    final _screenSize = MediaQuery.of(context).size;
-      final _pageController =
-      new PageController(initialPage: 1, viewportFraction: 0.35);
-
-
-
-    _pageController.addListener(() {
-      if (_pageController.position.pixels >=
-          _pageController.position.maxScrollExtent - 100) {
-        // siguientePagina();
-      }
-    });
+    final screenSize = MediaQuery.of(context).size;
+    final pageController =
+        PageController(initialPage: 1, viewportFraction: 0.35);
 
     return Container(
-      height: _screenSize.height * 0.25,
-      color: Colors.green,
+      height: screenSize.height * 0.2,
+      color: Colors.grey[100],
+      // color: Colors.green,
       child: PageView.builder(
         //se quita el magneto a la hora de arrastrar las imágenes
         pageSnapping: false,
-        //cantidad de tarjetas mostradas en pantalla viewportFraction
-        controller: _pageController,
-        // itemCount: peliculas.length, 
-        itemCount: products.length, 
+        controller: pageController,
+        itemCount: products.length,
         itemBuilder: (context, index) {
-          return _tarjeta(context , products[index]);
+          return _tarjeta(context, products[index]);
         },
-       // children: _tarjetas(),
       ),
     );
   }
 
-Widget _tarjeta(BuildContext context, Product product){
+  Widget _tarjeta(BuildContext context, Product product) {
+    final formatCurrency = NumberFormat.simpleCurrency();
+    return Container(
+      margin: const EdgeInsets.only(right: 10.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+              borderRadius: BorderRadius.circular(10.0),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 100),
+                child: Container(
+                  color: Colors.white,
+                  width: 200,
+                  height: 200,
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 5),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          product.producto,
+                          style: const TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text("${product.descripcion}"),
+                        Text(
+                          formatCurrency.format(product.precio),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                        footer(product)
+                      ],
+                    ),
+                  ),
+                ),
+              )),
+        ],
+      ),
+    );
+  }
 
-  //  pelicula.uniqueId = "${pelicula.id}-poster";
-  final random = Random();
-
-    final tarjeta =  Container(
-        color: Colors.amberAccent,
-        margin: const EdgeInsets.only(right: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            //el hero crea una transición de las tarjetas entre las páginas
-            ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Container(
-              color: Colors.indigoAccent,
-              width: 200,
-              height: 150,
-            )
-              ),
-            Text(
-              // pelicula.title, 
-              product.codigo!, 
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(fontSize: 9),
-            )
-          ],
-        ),
-      );
-
-      return GestureDetector(
-        child: tarjeta,
-        onTap: (){
-
-          //en el navigator estoy mandando la película a modo de argumento
-          //para que en la página detalle esta llegue con todas sus
-          //características y poderlas usar
-          //Navigator.pushNamed(context, 'detalle',arguments: "pelicula");
-        },
-      );
-}
-
+  Container footer(Product product) {
+    return Container(
+      height: 30,
+      width: double.infinity,
+      color: product.estado
+          ? AppConst.primaryColor.withOpacity(0.8)
+          : AppConst.deleteColor.withOpacity(0.7),
+      child: Center(
+          child: Text(
+        "¿Disponible? : ${product.estado ? "Si" : "No"}",
+        style: const TextStyle(color: Colors.white, fontSize: 12),
+      )),
+    );
+  }
 }

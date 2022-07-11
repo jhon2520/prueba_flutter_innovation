@@ -1,82 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:innovation_test/providers/product_provider.dart';
+import 'package:innovation_test/screens/screens.dart';
 import 'package:innovation_test/ui/ui.dart';
-import 'package:innovation_test/widgets/horizontal_cards.dart';
 import 'package:innovation_test/widgets/widgets.dart';
 import 'package:provider/provider.dart';
-
-
 
 class ProductScreen extends StatelessWidget {
   const ProductScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-
     final Size size = MediaQuery.of(context).size;
     final productProvider = Provider.of<ProductProvider>(context);
 
-    print(productProvider.globalProducts);
-
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           title: const Text("Productos"),
-        ),
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Container(
-                padding: EdgeInsets.symmetric(vertical: 20),
-                color: Colors.red,
-                width: double.infinity,
-                height: size.height * 0.5,
-                child: CardsSwiper(products: productProvider.globalProducts)),
-            HorizontalCards(products: productProvider.globalProducts)
+          actions: [
+            GestureDetector(
+              child: Container(
+                  width: 35,
+                  margin:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+                  decoration: BoxDecoration(
+                      color: const Color.fromRGBO(255, 255, 255, 0.08),
+                      borderRadius: BorderRadius.circular(50)),
+                  child: const Icon(Icons.add, size: 30)),
+              onTap: () {
+                productProvider.setDefaultActiveProduce();
+                productProvider.updateFlag =false;
+                Navigator.push(
+                  context,
+                  nagivatorTransitions(screen: const ListScreen()),
+                );
+              },
+            )
           ],
-
-        )
-        //floatingActionButton: _floatingActionsButtons()
-        );
+        ),
+        body: BodyContainer(size: size, productProvider: productProvider));
   }
 }
 
-class _floatingActionsButtons extends StatelessWidget {
-  const _floatingActionsButtons({
+class BodyContainer extends StatelessWidget {
+  const BodyContainer({
     Key? key,
+    required this.size,
+    required this.productProvider,
   }) : super(key: key);
+
+  final Size size;
+  final ProductProvider productProvider;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+    return SingleChildScrollView(
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.edit_note_outlined),
-              backgroundColor: AppConst.editColor,
-              heroTag: "edit",
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(20.0),
+                child: Text(
+                  "Elimina o edita un producto desde las opciones de cada tarjeta",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 14, color: Colors.black54),
+                ),
               ),
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.add),
-              backgroundColor: AppConst.primaryColor,
-              heroTag: "add",
+              Container(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  width: double.infinity,
+                  height: size.height * 0.45,
+                  child: CardsSwiper(products: productProvider.globalProducts)),
+              const SizedBox(
+                height: 30,
               ),
+              const Text("Todos los productos",
+                  style: TextStyle(fontSize: 14, color: Colors.black54)),
+              const SizedBox(
+                height: 30,
+              ),
+              HorizontalCards(products: productProvider.globalProducts)
+            ],
           ),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: FloatingActionButton(
-              onPressed: () {},
-              child: Icon(Icons.delete_forever),  
-              backgroundColor: AppConst.deleteColor,
-              heroTag: "delete",
+          const Positioned(
+              top: 20,
+              left: -15,
+              child: BubbleDecoration(
+                radius: 50,
+                opacity: 0.2,
+              )),
+          Positioned(
+            bottom: 200,
+            right: 0,
+            child: Transform.rotate(
+              angle: 45,
+              child: SquareDecoration(
+                height: 40,
+                width: 30,
+                color: Colors.orangeAccent.withOpacity(0.1),
+              ),
+            ),
+          ),
+          const Positioned(
+              top: 20,
+              left: -15,
+              child: BubbleDecoration(
+                radius: 50,
+                opacity: 0.1,
+              )),
+          Positioned(
+            top: 10,
+            right: -50,
+            child: Transform.rotate(
+              angle: 45,
+              child: SquareDecoration(
+                height: 60,
+                width: 100,
+                color: Colors.purple.withOpacity(0.1),
+              ),
             ),
           ),
         ],
